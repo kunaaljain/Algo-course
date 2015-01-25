@@ -1,15 +1,23 @@
+/*
+    HUFFMAN coding Problem.
+    
+    Author: Kunaal Jain
+    Email: kunaalus@gmail.com
+
+*/
+
 #include<bits/stdc++.h>
-#include <functional>
 using namespace std;
 
 struct node{
+	string value;
 	int probabilty;
 	node *leftchild;
 	node *rightchild;
 	node *parent;
 };
 
-struct DereferenceCompareNode : public std::binary_function<node*, node*, bool>
+struct DereferenceCompareNode
 {
     bool operator()(const node* lhs, const node* rhs) const
     {
@@ -20,10 +28,7 @@ struct DereferenceCompareNode : public std::binary_function<node*, node*, bool>
 
 void traversal(node *a,string x)
 {
-	//cout<<a->probabilty<<endl;
-	//getchar();
-	cout<<a->probabilty<<" "<<x<<endl;
-	if((a->leftchild)==NULL) cout<<x<<endl;
+	if((a->leftchild)==NULL) { cout<<a->value<<" "<<x<<endl; }
 	else { traversal(a->leftchild,x+"0"); traversal(a->rightchild,x+"1"); }
 	return;
 }
@@ -32,18 +37,20 @@ int main()
 {
 	node *x;
 	node *y,*z;
-	//x= new node;
+	string value;
 	priority_queue<node*,vector<node*>,DereferenceCompareNode> q1;
 	int i,n,temp;
-	n=4;
+	cin>>n;
 	for(i=0;i<n;i++) 
 	{		
 		cin>>temp;
+		cin>>value;
 		x = new node;
 		x->probabilty=temp;
 		x->leftchild=NULL;
 		x->rightchild=NULL;
 		x->parent=NULL;
+		x->value=value;
 		q1.push(x);
 	}
 	while(q1.size()>1)
@@ -54,17 +61,11 @@ int main()
 		q1.pop();
 		x=new node;
 		x->probabilty=y->probabilty+z->probabilty;
-		cout<<x->probabilty<<"X"<<endl;
 		x->leftchild=y;
 		x->rightchild=z;
 		x->parent=NULL;
 		q1.push(x);
-		//cout<<x->probabilty<<endl;
-		//cout<<x->leftchild->probabilty<<endl;
-		//cout<<x->rightchild->probabilty<<endl;
 	}
-	//cout<<x->leftchild->probabilty;
-	//cout<<q1.size();
 	string a="";
 
 	traversal(x,a);
